@@ -21,7 +21,7 @@ class CustomDataset(Dataset):
     def __getitem__(self, idx):
         img_name = os.path.join(self.image_dir, f"{str(idx).zfill(4)}.png")
         image = Image.open(img_name)
-        label = self.labels[idx]  # Không cần mã hóa nhãn cho hồi quy
+        label = self.labels[idx]  # No need to encode label for regression
         if self.transform:
             image = self.transform(image)
         return image, label
@@ -33,6 +33,7 @@ transform = transforms.Compose([
 ])
 
 # Dataset và DataLoader
+# Change the current directory with your directory that contains the frames_num and label.txt file
 dataset = CustomDataset(r'D:\new\frames_num', r'D:\new\label.txt', transform=transform)
 train_set, test_set = torch.utils.data.random_split(dataset, [int(0.8*len(dataset)), len(dataset) - int(0.8*len(dataset))])
 
@@ -46,7 +47,7 @@ class SimpleCNN(nn.Module):
         self.conv1 = nn.Conv2d(3, 32, 3, padding=1)
         self.conv2 = nn.Conv2d(32, 64, 3, padding=1)
         self.fc1 = nn.Linear(64*16*16, 64)
-        self.fc2 = nn.Linear(64, 1)  # Chỉ một đầu ra cho hồi quy
+        self.fc2 = nn.Linear(64, 1)  # 1 output for regression
         self.pool = nn.MaxPool2d(2, 2)
         self.relu = nn.ReLU()
 
@@ -75,7 +76,7 @@ for epoch in range(10):
         inputs, labels = data
         optimizer.zero_grad()
         outputs = model(inputs)
-        loss = criterion(outputs.view(-1), labels.float())  # Labels cần được chuyển đổi thành float
+        loss = criterion(outputs.view(-1), labels.float())  # Labels are needed to convert to float type
         loss.backward()
         optimizer.step()
         total_train_loss += loss.item()
@@ -88,7 +89,7 @@ for epoch in range(10):
         for data in test_loader:
             images, labels = data
             outputs = model(images)
-            loss = criterion(outputs.view(-1), labels.float())  # Chuyển đổi output để khớp với labels
+            loss = criterion(outputs.view(-1), labels.float())  # Convert output to match labels
             total_test_loss += loss.item()
     avg_test_loss = total_test_loss / len(test_loader)
     test_losses.append(avg_test_loss)

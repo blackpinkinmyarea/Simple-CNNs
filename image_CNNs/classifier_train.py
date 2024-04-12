@@ -23,27 +23,27 @@ class CustomDataset(Dataset):
         image = Image.open(img_name)
         label = self.labels[idx]
 
-        # Mã hóa nhãn
+        # Encode label
         if label < 0:
-            encoded_label = 0  # Rẽ trái
+            encoded_label = 0  # Turn left
         elif label == 0:
-            encoded_label = 1  # Đi thẳng
+            encoded_label = 1  # Go straight
         else:
-            encoded_label = 2  # Rẽ phải
+            encoded_label = 2  # Turn right
 
         if self.transform:
             image = self.transform(image)
 
         return image, encoded_label
 
-# Hàm chuyển đổi nhãn số thành tên nhãn
+# Function to convert numerical label (-0.5 to 0.5) into word label (left, right, straight)
 def label_to_str(label):
     if label == 0:
-        return "Rẽ trái"
+        return "Turn left"
     elif label == 1:
-        return "Đi thẳng"
+        return "Go stright"
     elif label == 2:
-        return "Rẽ phải"
+        return "Turn right"
 
 # Transform
 transform = transforms.Compose([
@@ -164,7 +164,7 @@ def plot_test_results(loader, model, num_images=5):
         plt.subplot(1, num_images, i+1)
         plt.imshow(images[i].permute(1, 2, 0))
         _, predicted = torch.max(outputs, 1)
-        plt.title(f"Đúng: {label_to_str(labels[i])}\nDự đoán: {label_to_str(predicted[i])}")
+        plt.title(f"Reality: {label_to_str(labels[i])}\nPrediction: {label_to_str(predicted[i])}")
         plt.axis('off')
     plt.show()
 
