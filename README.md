@@ -8,17 +8,17 @@
   + Deep learning frameworks: PyTorch.
   + Datasets containing labeled driving data for training and evaluation.
 - Tasks:
-  + Review Existing CNN Architectures
-  + Examine popular CNN architectures used in computer vision tasks.
-  + Identify architectures suitable for self-driving car models.
+  + Collect lane data using the camera, then split it into images.
+  + Using image processing techniques (finding lanes, curves) to create labels for all photos.
+  + Identify architectures suitable for self-driving car models (2 options: Regression and Classification).
   + Implement CNN Architectures
   + Develop Python implementations of selected CNN architectures (Regression and Classification).
   + Customize architectures to suit the requirements of self-driving car models.
 - Training and Evaluation
   + Train CNN models using driving datasets.
   + Evaluate the performance of CNN architectures of 2 methods: Regression and Classification.
-  + Performance Comparison
-  + Compare the performance metrics of different CNN architectures: MSELoss for regression, CrossEntropyLoss for classification.
+  + Performance Comparison between 2 methods: Regression, and Classification.
+  + Compare the performance metrics of different CNN architectures: MSELoss for regression, and CrossEntropyLoss for classification.
   + Analyze the strengths and weaknesses of each architecture in the context of self-driving cars.
 - Knowledge Utilized:
   + Understanding of deep learning concepts, including CNN architecture design principles.
